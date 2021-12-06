@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { doPasswordsMatch } from 'src/utils/auth.util';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -24,7 +25,13 @@ export class UsersService {
   }
 
   async verify(username: string, password: string) {
-    return !!(await this.usersRepository.findOne({ username, password }));
+    const user = await this.usersRepository.findOne({ username });
+
+    // if user does not exist
+    if (!user) return false;
+
+    // check against saved hashed password
+    return doPasswordsMatch(password, user.password);
   }
 
   async update(updateUserDto: UpdateUserDto) {

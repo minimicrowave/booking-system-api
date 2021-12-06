@@ -4,6 +4,9 @@ export default () => {
 
   return {
     port: parseInt(PORT, 10) || 3000,
+    auth: {
+      password_salt_rounds: 10,
+    },
     database: {
       type: DB_TYPE,
       host: DB_HOST,

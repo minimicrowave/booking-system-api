@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { async } from 'rxjs';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
+import * as authUtils from 'src/utils/auth.util';
 
 describe('UsersService', () => {
   const id = 1;
@@ -66,10 +66,21 @@ describe('UsersService', () => {
       jest
         .spyOn(repository, 'findOne')
         .mockResolvedValueOnce(new User(username, password));
+
+      jest.spyOn(authUtils, 'doPasswordsMatch').mockResolvedValueOnce(true);
       expect(await service.verify(username, password)).toBe(true);
     });
 
     it('should return false if username and password combination is invalid', async () => {
+      jest
+        .spyOn(repository, 'findOne')
+        .mockResolvedValueOnce(new User(username, password));
+
+      jest.spyOn(authUtils, 'doPasswordsMatch').mockResolvedValueOnce(false);
+      expect(await service.verify(username, password)).toBe(false);
+    });
+
+    it('should return false if user is not found', async () => {
       jest.spyOn(repository, 'findOne').mockResolvedValueOnce(null);
       expect(await service.verify(username, password)).toBe(false);
     });
