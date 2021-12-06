@@ -7,6 +7,17 @@ const config = {
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
+  coveragePathIgnorePatterns: [
+    'node_modules',
+    'dist',
+    'coverage',
+    '.*\\.entity\\.ts$',
+    '.*\\.dto\\.ts$',
+    '.*\\.module\\.ts$',
+    'main.ts',
+    '.eslintrc.js',
+    'jest.config.js',
+  ],
   collectCoverageFrom: ['**/*.(t|j)s'],
   coverageDirectory: 'coverage',
   testEnvironment: 'node',
