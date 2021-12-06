@@ -6,6 +6,7 @@ import { Connection } from 'typeorm';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { LocationsModule } from './locations/locations.module';
 import commonConfig from './config/common.config';
 
 @Module({
@@ -18,6 +19,7 @@ import commonConfig from './config/common.config';
     }),
     UsersModule,
     AuthModule,
+    LocationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

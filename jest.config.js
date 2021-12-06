@@ -11,8 +11,6 @@ const config = {
     'node_modules',
     'dist',
     'coverage',
-    '.*\\.entity\\.ts$',
-    '.*\\.dto\\.ts$',
     '.*\\.module\\.ts$',
     '.*\\.guard\\.ts$',
     'main.ts',
