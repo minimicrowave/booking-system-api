@@ -14,6 +14,7 @@ const config = {
     '.*\\.entity\\.ts$',
     '.*\\.dto\\.ts$',
     '.*\\.module\\.ts$',
+    '.*\\.guard\\.ts$',
     'main.ts',
     '.eslintrc.js',
     'jest.config.js',
