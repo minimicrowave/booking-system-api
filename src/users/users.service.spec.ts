@@ -5,7 +5,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
-import * as authUtils from 'src/utils/auth.util';
 
 describe('UsersService', () => {
   const id = 1;
@@ -49,40 +48,28 @@ describe('UsersService', () => {
     });
   });
 
-  describe('findOne()', () => {
+  describe('findOneById()', () => {
     it('should return user with matching id', async () => {
       jest.spyOn(repository, 'findOne').mockResolvedValueOnce(user);
-      expect(await service.findOne(id)).toBe(user);
+      expect(await service.findOneById(id)).toBe(user);
     });
 
     it('should return null if there is no user with matching id', async () => {
       jest.spyOn(repository, 'findOne').mockResolvedValueOnce(null);
-      expect(await service.findOne(id)).toBe(null);
+      expect(await service.findOneById(id)).toBe(null);
     });
   });
 
-  describe('verify()', () => {
+  describe('findOneByUsername()', () => {
     it('should return true if username and password combination is valid', async () => {
-      jest
-        .spyOn(repository, 'findOne')
-        .mockResolvedValueOnce(new User(username, password));
+      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(user);
 
-      jest.spyOn(authUtils, 'doPasswordsMatch').mockResolvedValueOnce(true);
-      expect(await service.verify(username, password)).toBe(true);
-    });
-
-    it('should return false if username and password combination is invalid', async () => {
-      jest
-        .spyOn(repository, 'findOne')
-        .mockResolvedValueOnce(new User(username, password));
-
-      jest.spyOn(authUtils, 'doPasswordsMatch').mockResolvedValueOnce(false);
-      expect(await service.verify(username, password)).toBe(false);
+      expect(await service.findOneByUsername(username)).toBe(user);
     });
 
     it('should return false if user is not found', async () => {
       jest.spyOn(repository, 'findOne').mockResolvedValueOnce(null);
-      expect(await service.verify(username, password)).toBe(false);
+      expect(await service.findOneByUsername(username)).toBe(null);
     });
   });
 
@@ -101,11 +88,11 @@ describe('UsersService', () => {
 
   describe('remove()', () => {
     it('should successfully delete user from db', async () => {
-      jest.spyOn(service, 'findOne').mockResolvedValueOnce(user);
+      jest.spyOn(service, 'findOneById').mockResolvedValueOnce(user);
       jest.spyOn(repository, 'remove').mockResolvedValueOnce(null);
 
       await service.remove(id);
-      expect(service.findOne).toBeCalledTimes(1);
+      expect(service.findOneById).toBeCalledTimes(1);
       expect(repository.remove).toBeCalledTimes(1);
     });
   });

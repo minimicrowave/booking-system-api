@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { doPasswordsMatch } from 'src/utils/auth.util';
+import { doPasswordsMatch, hashPassword } from 'src/utils/auth.util';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -15,23 +15,17 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     const { username, password } = createUserDto;
-    const user = new User(username, password);
+    const user = new User(username, hashPassword(password));
 
     await this.usersRepository.save(user);
   }
 
-  async findOne(id: number) {
+  findOneById(id: number) {
     return this.usersRepository.findOne(id);
   }
 
-  async verify(username: string, password: string) {
-    const user = await this.usersRepository.findOne({ username });
-
-    // if user does not exist
-    if (!user) return false;
-
-    // check against saved hashed password
-    return doPasswordsMatch(password, user.password);
+  findOneByUsername(username: string) {
+    return this.usersRepository.findOne({ username });
   }
 
   async update(updateUserDto: UpdateUserDto) {
@@ -42,7 +36,7 @@ export class UsersService {
   }
 
   async remove(id: number) {
-    const user = await this.findOne(id);
+    const user = await this.findOneById(id);
     await this.usersRepository.remove(user);
   }
 }
