@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { doPasswordsMatch, hashPassword } from 'src/utils/auth.util';
+import { hashPassword } from 'src/utils/auth.util';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -15,7 +15,7 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     const { username, password } = createUserDto;
-    const user = new User(username, hashPassword(password));
+    const user = new User(username, await hashPassword(password));
 
     await this.usersRepository.save(user);
   }
