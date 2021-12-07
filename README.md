@@ -1,10 +1,9 @@
 # Booking System API
 
-Built on Nest.js
-
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+A [Nest](https://github.com/nestjs/nest) backend application, that requires a MySQL database.
+
 
 ## Installation
 
@@ -31,9 +30,14 @@ $ npm run start:prod
 # unit tests
 $ npm run test
 
-# e2e tests
-$ npm run test:e2e
-
 # test coverage
 $ npm run test:cov
 ```
+
+----
+
+## ERD
+![Booking System ERD](./assets/booking_system.jpg)
+
+
+
