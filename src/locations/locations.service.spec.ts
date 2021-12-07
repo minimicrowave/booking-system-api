@@ -42,7 +42,7 @@ describe('LocationsService', () => {
   });
 
   describe('findAll()', () => {
-    it('should return a list of location', async () => {
+    it('should return a list of locations', async () => {
       jest.spyOn(repository, 'find').mockResolvedValueOnce([location]);
       expect(await service.findAll()).toStrictEqual([location]);
     });
@@ -54,7 +54,7 @@ describe('LocationsService', () => {
       expect(await service.findOne(id)).toEqual(location);
     });
 
-    it('should return null if matching location id found', async () => {
+    it('should return null if no matching location id found', async () => {
       jest.spyOn(repository, 'findOne').mockResolvedValueOnce(null);
       expect(await service.findOne(id)).toEqual(null);
     });
