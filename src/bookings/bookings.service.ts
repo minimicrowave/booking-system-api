@@ -32,6 +32,7 @@ export class BookingsService {
       where: {
         userId,
       },
+      relations: ['location'],
     });
   }
 

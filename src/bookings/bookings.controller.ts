@@ -9,6 +9,8 @@ import {
   BadRequestException,
   HttpCode,
   UseGuards,
+  Res,
+  HttpStatus,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { BookingsService } from './bookings.service';
@@ -20,8 +22,15 @@ export class BookingsController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  create(@Body() createBookingDto: CreateBookingDto) {
-    this.bookingsService.create(createBookingDto);
+  async create(@Body() createBookingDto: CreateBookingDto, @Res() res) {
+    try {
+      await this.bookingsService.create(createBookingDto);
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        res.status(HttpStatus.BAD_REQUEST).send();
+      }
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
+    }
   }
 
   @Get('/users/:userId')
