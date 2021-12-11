@@ -16,7 +16,7 @@ Create an `.env` file in the project root by following and fill the values accor
 
 An example can be found below:
 
-```
+```yml
 # App
 PORT=8080 # port which this project will run on
 
@@ -32,8 +32,6 @@ DB_NAME=bookingsystem
 JWT_SECRET=secret # can be any string, used to sign JWT
 
 ```
-
-App 
 
 ## Running the app
 
