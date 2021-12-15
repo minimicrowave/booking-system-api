@@ -11,7 +11,7 @@ export default () => {
   } = process.env;
 
   return {
-    port: parseInt(PORT, 10) || 3000,
+    port: parseInt(PORT, 10) || 8080,
     auth: {
       password_salt_rounds: 10,
       jwt: {
