@@ -19,6 +19,6 @@ jobs:
           await github.rest.actions.createWorkflowDispatch({
             owner: 'minimicrowave',
             repo: 'booking-system-cf',
-            workflow_id: 'workflows/test.yml',
+            workflow_id: 'test.yml',
             ref: 'master'
           });
