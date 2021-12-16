@@ -19,5 +19,5 @@ jobs:
             'minimicrowave',
             'booking-system-cf',
             'workflows/test.yml',
-            'main'
+            'master'
           });
