@@ -25,6 +25,7 @@ export class BookingsController {
   async create(@Body() createBookingDto: CreateBookingDto, @Res() res) {
     try {
       await this.bookingsService.create(createBookingDto);
+      res.status(HttpStatus.CREATED).send();
     } catch (error) {
       if (error instanceof BadRequestException) {
         res.status(HttpStatus.BAD_REQUEST).send();
