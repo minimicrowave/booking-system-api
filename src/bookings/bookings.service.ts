@@ -1,7 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Between, MoreThan, LessThan } from 'typeorm';
+import { Between, LessThan, MoreThan, Repository } from 'typeorm';
 import { CreateBookingDto } from './dto/create-booking.dto';
+import { UpdateBookingDto } from './dto/update-booking.dto';
 import { Booking } from './entities/booking.entity';
 
 @Injectable()
@@ -23,6 +24,30 @@ export class BookingsService {
     }
 
     const booking = new Booking(datetimeStart, datetimeEnd, userId, locationId);
+
+    await this.bookingsRepository.save(booking);
+  }
+
+  async update(updateBookingDto: UpdateBookingDto) {
+    const { datetimeStart, datetimeEnd, userId, locationId, id } =
+      updateBookingDto;
+    const isAvailable = await this.isAvailable(
+      locationId,
+      datetimeStart,
+      datetimeEnd,
+    );
+
+    if (!isAvailable) {
+      throw new BadRequestException();
+    }
+
+    const booking = new Booking(
+      datetimeStart,
+      datetimeEnd,
+      userId,
+      locationId,
+      id,
+    );
 
     await this.bookingsRepository.save(booking);
   }

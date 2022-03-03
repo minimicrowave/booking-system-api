@@ -1,16 +1,17 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Delete,
-  Query,
   BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
   HttpCode,
-  UseGuards,
-  Res,
   HttpStatus,
+  Param,
+  Post,
+  Put,
+  Query,
+  Res,
+  UseGuards
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { BookingsService } from './bookings.service';
@@ -26,6 +27,19 @@ export class BookingsController {
     try {
       await this.bookingsService.create(createBookingDto);
       res.status(HttpStatus.CREATED).send();
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        res.status(HttpStatus.BAD_REQUEST).send();
+      }
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
+    }
+  }
+
+  @Put()
+  @UseGuards(JwtAuthGuard)
+  async update(@Body() updateBookingDto, @Res() res) {
+    try {
+      await this.bookingsService.update(updateBookingDto);
     } catch (error) {
       if (error instanceof BadRequestException) {
         res.status(HttpStatus.BAD_REQUEST).send();
